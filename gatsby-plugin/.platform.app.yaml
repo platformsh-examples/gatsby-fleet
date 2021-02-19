@@ -1,0 +1,29 @@
+name: 'gatsby'
+
+type: 'nodejs:14'
+
+hooks:
+    build: npm run build
+
+web:
+    commands:
+        start: npm run serve -- -p $PORT
+
+disk: 512
+
+mounts:
+    '/.cache':
+        source: local
+        source_path: cache
+    '/.config':
+        source: local
+        source_path: config
+
+source:
+    operations:
+        update:
+            command: |
+                echo Last Content Update:  $(date) > counter.txt
+                echo "Create dummy commit to force rebuild for updated content."
+                git commit -am "Source Operation: Updated content from backend."
+
